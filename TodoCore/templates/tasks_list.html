@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список Задач | Красивый Дизайн</title>
+
+    <!-- Подключение внешнего файла со стилями -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Подключение шрифта Poppins с Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="todo-container">
+        <header class="todo-header">
+            <h1>Мои задачи</h1>
+            <p>Статический макет с разделением задач</p>
+        </header>
+
+        <main class="todo-body">
+
+            <!-- НОВАЯ СЕКЦИЯ С ФОРМОЙ ДОБАВЛЕНИЯ ЗАДАЧИ -->
+            <section class="task-section add-task-section">
+                <h2><i class="fas fa-plus-circle"></i> Добавить новую задачу</h2>
+                <form class="add-task-form">
+                    <div class="form-inputs">
+                        <div class="input-group">
+                            <input type="text" name="title" placeholder="Название задачи..." required>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="description" placeholder="Описание или срок...">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-add">
+                        <i class="fas fa-plus"></i> Добавить задачу
+                    </button>
+                </form>
+            </section>
+            <!-- КОНЕЦ НОВОЙ СЕКЦИИ -->
+
+
+            <!-- Секция активных задач -->
+            <section class="task-section">
+                <h2><i class="fas fa-list-ul"></i> Активные задачи</h2>
+                <div class="task-group">
+                    <!-- Задача 1 -->
+                    <div class="task-item">
+                        <div class="task-content">
+                            <span class="task-title">Разработать новый дизайн</span>
+                            <span class="task-due-date">Срок: до конца недели</span>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn complete-btn" title="Завершить"><i class="fas fa-check"></i></button>
+                            <button class="btn edit-btn" title="Редактировать"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <!-- Задача 2 -->
+                    <div class="task-item">
+                        <div class="task-content">
+                            <span class="task-title">Позвонить клиенту</span>
+                            <span class="task-due-date">Сегодня в 15:00</span>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn complete-btn" title="Завершить"><i class="fas fa-check"></i></button>
+                            <button class="btn edit-btn" title="Редактировать"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция выполненных задач -->
+            <section class="task-section">
+                <h2><i class="fas fa-check-double"></i> Выполненные</h2>
+                <div class="task-group">
+                    <!-- Выполненная задача 1 -->
+                    <div class="task-item is-completed">
+                        <div class="task-content">
+                            <span class="task-title">Выпить утренний кофе</span>
+                            <span class="task-due-date">Выполнено сегодня</span>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn restore-btn" title="Восстановить"><i class="fas fa-undo"></i></button>
+                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                     <!-- Выполненная задача 2 -->
+                    <div class="task-item is-completed">
+                        <div class="task-content">
+                            <span class="task-title">Загрузить файлы на сервер</span>
+                            <span class="task-due-date">Выполнено вчера</span>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn restore-btn" title="Восстановить"><i class="fas fa-undo"></i></button>
+                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
