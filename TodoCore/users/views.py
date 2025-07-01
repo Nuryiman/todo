@@ -64,3 +64,4 @@ class LoginView(View):
         except User.DoesNotExist:
             messages.error(request, "Пользователь с таким именем еще е зарегистрирован")
         return render(request, "users/login.html", {})
+

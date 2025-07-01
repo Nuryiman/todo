@@ -18,8 +18,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="profile-box-fixed">
+        <div class="profile-info">
+            <div class="profile-name"><i class="fas fa-user"></i>{{ user.username }}</div>
+            <div class="task-stats">
+                <i class="fas fa-tasks"></i> Всего: {{ all_tasks_count }} |
+                <i class="fas fa-check-circle"></i> Выполнено: {{ completed_tasks_count }}
+            </div>
+        </div>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout-btn" title="Выйти">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
+    </div>
+
 
     <div class="todo-container">
+
         <header class="todo-header">
             <h1>Мои задачи</h1>
             <p>Статический макет с разделением задач</p>
@@ -30,13 +47,12 @@
             <!-- НОВАЯ СЕКЦИЯ С ФОРМОЙ ДОБАВЛЕНИЯ ЗАДАЧИ -->
             <section class="task-section add-task-section">
                 <h2><i class="fas fa-plus-circle"></i> Добавить новую задачу</h2>
-                <form class="add-task-form">
+                <form class="add-task-form" method="POST" action="{% url 'add_task' %}">
+                    {% csrf_token %}
                     <div class="form-inputs">
+
                         <div class="input-group">
-                            <input type="text" name="title" placeholder="Название задачи..." required>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" name="description" placeholder="Описание или срок...">
+                            <input type="text" name="task" placeholder="Новая задача...">
                         </div>
                     </div>
                     <button type="submit" class="btn-add">
@@ -52,29 +68,23 @@
                 <h2><i class="fas fa-list-ul"></i> Активные задачи</h2>
                 <div class="task-group">
                     <!-- Задача 1 -->
-                    <div class="task-item">
-                        <div class="task-content">
-                            <span class="task-title">Разработать новый дизайн</span>
-                            <span class="task-due-date">Срок: до конца недели</span>
+                    {% for task in active_tasks %}
+                        <div class="task-item">
+                            <div class="task-content">
+                                <span class="task-title">{{ task.description }}</span>
+                            </div>
+                            <div class="task-actions">
+                                <form method="POST"  action="{% url 'complete_task' task.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn complete-btn" title="Завершить"><i class="fas fa-check"></i></button>
+                                </form>
+                                <form method="POST" action="{% url 'delete_task' task.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="task-actions">
-                            <button class="btn complete-btn" title="Завершить"><i class="fas fa-check"></i></button>
-                            <button class="btn edit-btn" title="Редактировать"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                    <!-- Задача 2 -->
-                    <div class="task-item">
-                        <div class="task-content">
-                            <span class="task-title">Позвонить клиенту</span>
-                            <span class="task-due-date">Сегодня в 15:00</span>
-                        </div>
-                        <div class="task-actions">
-                            <button class="btn complete-btn" title="Завершить"><i class="fas fa-check"></i></button>
-                            <button class="btn edit-btn" title="Редактировать"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </section>
 
@@ -83,27 +93,25 @@
                 <h2><i class="fas fa-check-double"></i> Выполненные</h2>
                 <div class="task-group">
                     <!-- Выполненная задача 1 -->
-                    <div class="task-item is-completed">
-                        <div class="task-content">
-                            <span class="task-title">Выпить утренний кофе</span>
-                            <span class="task-due-date">Выполнено сегодня</span>
+                    {% for task in completed_tasks %}
+                        <div class="task-item is-completed">
+                            <div class="task-content">
+                                <span class="task-title">{{ task.description }}</span>
+                            </div>
+                            <div class="task-actions">
+                                <form method="POST" action="{% url 'restore_task' task.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn restore-btn" title="Восстановить"><i class="fas fa-undo"></i></button>
+                                </form>
+                                <form method="POST" action="{% url 'delete_task' task.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
+                                </form>
+
+                            </div>
                         </div>
-                        <div class="task-actions">
-                            <button class="btn restore-btn" title="Восстановить"><i class="fas fa-undo"></i></button>
-                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                     <!-- Выполненная задача 2 -->
-                    <div class="task-item is-completed">
-                        <div class="task-content">
-                            <span class="task-title">Загрузить файлы на сервер</span>
-                            <span class="task-due-date">Выполнено вчера</span>
-                        </div>
-                        <div class="task-actions">
-                            <button class="btn restore-btn" title="Восстановить"><i class="fas fa-undo"></i></button>
-                            <button class="btn delete-btn" title="Удалить"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </section>
         </main>
